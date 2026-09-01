@@ -8,8 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddServiceBusDependencies(
-    builder.Configuration);
+builder.Services.AddServiceBusDependencies(builder.Configuration);
 
 builder.Services.AddScoped<OrderPaymentOrchestrator>();
 

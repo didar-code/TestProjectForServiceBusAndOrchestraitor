@@ -14,7 +14,7 @@ namespace ServiceBus
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<IEnumerable<Event>> SendAsync<TCommand>(
+        public async Task<IEnumerable<Event>> SendCommandAsync<TCommand>(
             TCommand command)
             where TCommand : ICommand
         {
@@ -25,7 +25,7 @@ namespace ServiceBus
             return await handler.HandleAsync(command);
         }
 
-        public async Task<TResult> QueryAsync<TQuery, TResult>(
+        public async Task<TResult> SendQueryAsync<TQuery, TResult>(
             TQuery query)
             where TQuery : IQuery<TResult>
         {

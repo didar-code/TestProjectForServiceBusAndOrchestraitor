@@ -14,27 +14,22 @@ namespace OrchestraitorSubSystem.Handler.Orchestraitators
     {
         private readonly IServiceBus _serviceBus;
 
-        public OrderPaymentOrchestrator(
-            IServiceBus serviceBus)
+        public OrderPaymentOrchestrator(IServiceBus serviceBus)
         {
             _serviceBus = serviceBus;
         }
 
-        public async Task<bool> ProcessAsync(
-            ProcessOrderPaymentCommand command)
+        public async Task<bool> ProcessAsync(ProcessOrderPaymentCommand command)
         {
             try
             {
-                var paymentEvents =
-                    await _serviceBus.SendAsync(
-                        new ProcessPaymentCommand(
+                var paymentEvents = await _serviceBus.SendCommandAsync(new ProcessPaymentCommand(
                             command.PaymentId));
 
                 if (!paymentEvents.Any())
                     return false;
 
-                var orderEvents =
-                    await _serviceBus.SendAsync(
+                var orderEvents =await _serviceBus.SendCommandAsync(
                         new ConfirmOrderCommand
                         {
                             OrderId = command.OrderId,
@@ -44,7 +39,7 @@ namespace OrchestraitorSubSystem.Handler.Orchestraitators
                 if (orderEvents.Any())
                     return true;
 
-                await _serviceBus.SendAsync(
+                await _serviceBus.SendCommandAsync(
                     new FailPaymentCommand
                     {
                         PaymentId = command.PaymentId
@@ -54,7 +49,8 @@ namespace OrchestraitorSubSystem.Handler.Orchestraitators
             }
             catch
             {
-                await _serviceBus.SendAsync(
+                await _serviceBus.SendCommandAsync(
+                    
                     new FailPaymentCommand
                     {
                         PaymentId = command.PaymentId
