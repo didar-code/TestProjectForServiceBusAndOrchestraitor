@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PaymentManagementSubSystem.DTOs\PaymentManagementSubSystem.DTOs.csproj" />
+    <ProjectReference Include="..\PaymentManagementSubSystem.Repository\PaymentManagementSubSystem.Repository.csproj" />
+    <ProjectReference Include="..\SharedSubSystem\SharedSubSystem.csproj" />
+  </ItemGroup>
+
+</Project>

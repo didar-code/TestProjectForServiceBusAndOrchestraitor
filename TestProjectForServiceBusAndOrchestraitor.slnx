@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/Src/">
+    <Project Path="SharedSubSystem/SharedSubSystem.csproj" />
+  </Folder>
+  <Folder Name="/Src/OrchestraitorSubSystem/">
+    <Project Path="OrchestraitorSubSystem.Api/OrchestraitorSubSystem.Api.csproj" />
+    <Project Path="OrchestraitorSubSystem.DTOs/OrchestraitorSubSystem.DTOs.csproj" />
+    <Project Path="OrchestraitorSubSystem.Handler/OrchestraitorSubSystem.Handler.csproj" />
+  </Folder>
+  <Folder Name="/Src/OrderManagementSubsystem/">
+    <Project Path="OrderManagementSubsystem.Aggregators/OrderManagementSubsystem.Aggregators.csproj" />
+    <Project Path="OrderManagementSubsystem.Api/OrderManagementSubsystem.Api.csproj" />
+    <Project Path="OrderManagementSubsystem.DTOs/OrderManagementSubsystem.DTOs.csproj" />
+    <Project Path="OrderManagementSubsystem.Handler/OrderManagementSubsystem.Handler.csproj" />
+    <Project Path="OrderManagementSubsystem.Repository/OrderManagementSubsystem.Repository.csproj" />
+  </Folder>
+  <Folder Name="/Src/PaymentManagementSubSystem/">
+    <Project Path="PaymentManagementSubSystem.Aggregators/PaymentManagementSubSystem.Aggregators.csproj" />
+    <Project Path="PaymentManagementSubSystem.Api/PaymentManagementSubSystem.Api.csproj" />
+    <Project Path="PaymentManagementSubSystem.DTOs/PaymentManagementSubSystem.DTOs.csproj" />
+    <Project Path="PaymentManagementSubSystem.Handler/PaymentManagementSubSystem.Handler.csproj" />
+    <Project Path="PaymentManagementSubSystem.Repository/PaymentManagementSubSystem.Repository.csproj" />
+  </Folder>
+  <Folder Name="/Src/ServiceBus/">
+    <Project Path="ServiceBus/ServiceBus.csproj" />
+  </Folder>
+</Solution>
