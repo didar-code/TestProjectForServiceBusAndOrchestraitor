@@ -14,13 +14,10 @@ namespace ServiceBus
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<IEnumerable<Event>> SendCommandAsync<TCommand>(
-            TCommand command)
+        public async Task<IEnumerable<Event>> SendCommandAsync<TCommand>(TCommand command)
             where TCommand : ICommand
         {
-            var handler =
-                _serviceProvider
-                    .GetRequiredService<ICommandHandler<TCommand>>();
+            var handler = _serviceProvider.GetRequiredService<ICommandHandler<TCommand>>();
 
             return await handler.HandleAsync(command);
         }
@@ -29,9 +26,7 @@ namespace ServiceBus
             TQuery query)
             where TQuery : IQuery<TResult>
         {
-            var handler =
-                _serviceProvider
-                    .GetRequiredService<IQueryHandler<TQuery, TResult>>();
+            var handler =_serviceProvider.GetRequiredService<IQueryHandler<TQuery, TResult>>();
 
             return await handler.HandleAsync(query);
         }

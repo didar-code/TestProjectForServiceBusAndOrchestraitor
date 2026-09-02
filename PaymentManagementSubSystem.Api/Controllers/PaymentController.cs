@@ -32,22 +32,22 @@ namespace PaymentManagementSubSystem.Api.Controllers
             return Ok(events);
         }
 
-        [HttpPost("confirm")]
-        public async Task<IActionResult> Confirm(ConfirmPaymentCommand command)
-        {
-            var events =
-                await _confirmHandler.HandleAsync(command);
+        //[HttpPost("confirm")]
+        //public async Task<IActionResult> Confirm(ConfirmPaymentCommand command)
+        //{
+        //    var events =
+        //        await _confirmHandler.HandleAsync(command);
 
-            return Ok(events);
-        }
+        //    return Ok(events);
+        //}
 
-        [HttpPost("fail")]
-        public async Task<IActionResult> Fail(FailPaymentCommand command)
-        {
-            var events =
-                await _failHandler.HandleAsync(command);
+        //[HttpPost("fail")]
+        //public async Task<IActionResult> Fail(FailPaymentCommand command)
+        //{
+        //    var events =
+        //        await _failHandler.HandleAsync(command);
 
-            return Ok(events);
-        }
+        //    return Ok(events);
+        //}
     }
 }

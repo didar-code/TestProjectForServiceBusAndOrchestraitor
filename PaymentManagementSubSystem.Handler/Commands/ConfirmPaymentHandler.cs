@@ -21,11 +21,9 @@ namespace PaymentManagementSubSystem.Handler.Commands
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Event>> HandleAsync(
-            ConfirmPaymentCommand command)
+        public async Task<IEnumerable<Event>> HandleAsync(ConfirmPaymentCommand command)
         {
-            var payment =
-                await _repository.GetByIdAsync(command.PaymentId);
+            var payment = await _repository.GetByIdAsync(command.PaymentId);
 
             if (payment == null)
             {

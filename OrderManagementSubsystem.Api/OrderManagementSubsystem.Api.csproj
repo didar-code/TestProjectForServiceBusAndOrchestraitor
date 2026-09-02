@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OrderManagementSubsystem.DTOs\OrderManagementSubsystem.DTOs.csproj" />
     <ProjectReference Include="..\OrderManagementSubsystem.Handler\OrderManagementSubsystem.Handler.csproj" />
-    <ProjectReference Include="..\OrderManagementSubsystem.Repository\OrderManagementSubsystem.Repository.csproj" />
+  
     <ProjectReference Include="..\SharedSubSystem\SharedSubSystem.csproj" />
   </ItemGroup>
 

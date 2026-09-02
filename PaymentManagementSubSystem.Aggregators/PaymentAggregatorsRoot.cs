@@ -24,22 +24,16 @@ namespace PaymentManagementSubSystem.Aggregators
         {
         }
 
-        public static PaymentAggregatorsRoot Create(
-            int orderId,
-            decimal amount,
-            string paymentMethod)
+        public static PaymentAggregatorsRoot Create(int orderId,decimal amount,string paymentMethod)
         {
             if (orderId <= 0)
-                throw new Exception(
-                    "Order id must be greater than zero.");
+                throw new Exception("Order id must be greater than zero.");
 
             if (amount <= 0)
-                throw new Exception(
-                    "Payment amount must be greater than zero.");
+                throw new Exception("Payment amount must be greater than zero.");
 
             if (string.IsNullOrWhiteSpace(paymentMethod))
-                throw new Exception(
-                    "Payment method is required.");
+                throw new Exception("Payment method is required.");
 
             return new PaymentAggregatorsRoot
             {
@@ -54,12 +48,10 @@ namespace PaymentManagementSubSystem.Aggregators
         public void Confirm()
         {
             if (Status == "Confirmed")
-                throw new Exception(
-                    "Payment is already confirmed.");
+                throw new Exception("Payment is already confirmed.");
 
             if (Status == "Failed")
-                throw new Exception(
-                    "Failed payment cannot be confirmed.");
+                throw new Exception("Failed payment cannot be confirmed.");
 
             Status = "Confirmed";
         }
@@ -67,12 +59,10 @@ namespace PaymentManagementSubSystem.Aggregators
         public void Fail()
         {
             if (Status == "Confirmed")
-                throw new Exception(
-                    "Confirmed payment cannot be failed.");
+                throw new Exception("Confirmed payment cannot be failed.");
 
             if (Status == "Failed")
-                throw new Exception(
-                    "Payment is already failed.");
+                throw new Exception("Payment is already failed.");
 
             Status = "Failed";
         }

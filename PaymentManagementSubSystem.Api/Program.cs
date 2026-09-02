@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PaymentManagementSubSystem.DTOs.Commands;
 using PaymentManagementSubSystem.Handler.Commands;
-using PaymentManagementSubSystem.Repository.Data;
-using PaymentManagementSubSystem.Repository.Interfaces;
-using PaymentManagementSubSystem.Repository.Repositories;
 using SharedSubSystem.Generics;
 using PaymentManagementSubSystem.Handler.DependencyInjection;
 

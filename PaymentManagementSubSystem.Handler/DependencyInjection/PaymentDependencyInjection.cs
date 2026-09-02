@@ -18,35 +18,20 @@ namespace PaymentManagementSubSystem.Handler.DependencyInjection
 {
     public static class PaymentDependencyInjection
     {
-        public static IServiceCollection AddPaymentManagement(
-            this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddPaymentManagement(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddDbContext<PaymentDbContext>(
-                options =>
-                    options.UseSqlServer(
-                        configuration.GetConnectionString(
-                            "PaymentCon")));
+            services.AddDbContext<PaymentDbContext>( options =>options.UseSqlServer(
+                        configuration.GetConnectionString("PaymentCon")));
 
-            services.AddScoped<
-                IPaymentRepository,
-                PaymentRepository>();
+            services.AddScoped<IPaymentRepository,PaymentRepository>();
 
-            services.AddScoped<
-                ICommandHandler<CreatePaymentCommand>,
-                CreatePaymentHandler>();
+            services.AddScoped<ICommandHandler<CreatePaymentCommand>,CreatePaymentHandler>();
 
-            services.AddScoped<
-                ICommandHandler<ConfirmPaymentCommand>,
-                ConfirmPaymentHandler>();
+            services.AddScoped<ICommandHandler<ConfirmPaymentCommand>, ConfirmPaymentHandler>();
 
-            services.AddScoped<
-                ICommandHandler<FailPaymentCommand>,
-                FailPaymentHandler>();
+            services.AddScoped<ICommandHandler<FailPaymentCommand>, FailPaymentHandler>();
 
-            services.AddScoped<
-                ICommandHandler<ProcessPaymentCommand>,
-                ProcessPaymentHandler>();
+            services.AddScoped<ICommandHandler<ProcessPaymentCommand>,ProcessPaymentHandler>();
 
             return services;
         }
