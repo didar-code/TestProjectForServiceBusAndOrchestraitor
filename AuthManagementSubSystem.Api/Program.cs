@@ -1,35 +1,30 @@
-using Microsoft.EntityFrameworkCore;
+using AuthManagementSubSystem.Handlers.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using OrderManagementSubsystem.DTOs.Commands;
-using OrderManagementSubsystem.DTOs.Responses;
-using OrderManagementSubsystem.Handler.Commands;
-using OrderManagementSubsystem.Handler.DependencyInjection;
-using OrderManagementSubsystem.Repository.Data;
-using OrderManagementSubsystem.Repository.Interfaces;
-using OrderManagementSubsystem.Repository.Repositories;
-
-using SharedSubSystem.Generics;
-using SharedSubSystem.Security;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.FullName);
+
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Auth Management API",
+        Version = "v1"
+    });
 
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
+        Scheme = "bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Enter JWT token like: Bearer {your token}"
+        Description = "Enter JWT token like: Bearer {your JWT token}"
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -48,21 +43,21 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddTokenVarification(builder.Configuration);
-
-
-builder.Services.AddOrderManagement(builder.Configuration);
+builder.Services.AddAuthManagement(builder.Configuration);
 
 var app = builder.Build();
-
-
-
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth Management API v1");
+    });
 }
+
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

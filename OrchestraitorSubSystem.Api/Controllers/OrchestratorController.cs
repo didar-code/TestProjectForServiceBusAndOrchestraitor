@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OrchestraitorSubSystem.DTOs.Command;
 using OrchestraitorSubSystem.Handler.Orchestraitators;
@@ -17,6 +18,7 @@ namespace OrchestraitorSubSystem.Api.Controllers
         }
 
         [HttpPost("process-order-payment")]
+        [Authorize]
         public async Task<IActionResult> ProcessOrderPayment( [FromBody] ProcessOrderPaymentCommand command)
         {
             try

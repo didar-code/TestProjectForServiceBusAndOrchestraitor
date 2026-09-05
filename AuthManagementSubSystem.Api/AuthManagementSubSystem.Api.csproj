@@ -11,14 +11,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PaymentManagementSubSystem.DTOs\PaymentManagementSubSystem.DTOs.csproj" />
-    <ProjectReference Include="..\PaymentManagementSubSystem.Handler\PaymentManagementSubSystem.Handler.csproj" />
+    <ProjectReference Include="..\AuthManagementSubSystem.DTOs\AuthManagementSubSystem.DTOs.csproj" />
+    <ProjectReference Include="..\AuthManagementSubSystem.Handlers\AuthManagementSubSystem.Handlers.csproj" />
     <ProjectReference Include="..\SharedSubSystem\SharedSubSystem.csproj" />
-  
   </ItemGroup>
 
 </Project>

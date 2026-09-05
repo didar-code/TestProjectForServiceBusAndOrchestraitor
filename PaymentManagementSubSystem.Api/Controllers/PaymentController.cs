@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PaymentManagementSubSystem.DTOs.Commands;
 using SharedSubSystem.Generics;
@@ -24,6 +25,7 @@ namespace PaymentManagementSubSystem.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreatePaymentCommand command)
         {
             var events =

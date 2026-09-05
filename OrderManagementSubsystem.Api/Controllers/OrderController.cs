@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagementSubsystem.DTOs.Commands;
 using OrderManagementSubsystem.DTOs.Queries;
@@ -9,6 +10,7 @@ namespace OrderManagementSubsystem.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+ 
     public class OrderController : ControllerBase
     {
         private readonly ICommandHandler<CreateOrderCommand> _createHandler;
@@ -21,6 +23,7 @@ namespace OrderManagementSubsystem.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create( CreateOrderCommand command)
         {
             var events = await _createHandler.HandleAsync(command);

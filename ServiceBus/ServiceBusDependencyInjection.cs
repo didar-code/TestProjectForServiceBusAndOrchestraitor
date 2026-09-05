@@ -18,8 +18,7 @@ namespace ServiceBus
 {
     public static class ServiceBusDependencyInjection
     {
-        public static IServiceCollection AddServiceBusDependencies(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddServiceBusDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOrderManagement(configuration);
 

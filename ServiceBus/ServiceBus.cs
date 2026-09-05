@@ -22,8 +22,7 @@ namespace ServiceBus
             return await handler.HandleAsync(command);
         }
 
-        public async Task<TResult> SendQueryAsync<TQuery, TResult>(
-            TQuery query)
+        public async Task<TResult> SendQueryAsync<TQuery, TResult>(TQuery query)
             where TQuery : IQuery<TResult>
         {
             var handler =_serviceProvider.GetRequiredService<IQueryHandler<TQuery, TResult>>();

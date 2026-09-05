@@ -23,8 +23,8 @@ namespace OrchestraitorSubSystem.Handler.Orchestraitators
         {
             try
             {
-                var paymentEvents = await _serviceBus.SendCommandAsync(new ProcessPaymentCommand(
-                            command.PaymentId));
+                var paymentEvents = await _serviceBus.SendCommandAsync(
+                    new ProcessPaymentCommand(command.PaymentId));
 
                 if (!paymentEvents.Any())
                     return false;
