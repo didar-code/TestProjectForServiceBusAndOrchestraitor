@@ -9,16 +9,24 @@ namespace SharedSubSystem.Security
 {
     public static class TokenVarification
     {
-        public static IServiceCollection AddTokenVarification(
-            this IServiceCollection services,
+        public static IServiceCollection AddTokenVarification(this IServiceCollection services,
             IConfiguration configuration)
         {
             var key = configuration["Jwt:Key"]
                 ?? throw new InvalidOperationException(
                     "JWT key is not configured.");
 
+            var issuer = configuration["Jwt:Issuer"]
+                ?? throw new InvalidOperationException(
+                    "JWT issuer is not configured.");
+
+            var audience = configuration["Jwt:Audience"]
+                ?? throw new InvalidOperationException(
+                    "JWT audience is not configured.");
+
             services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddAuthentication(
+                    JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters =
@@ -30,13 +38,18 @@ namespace SharedSubSystem.Security
                                 new SymmetricSecurityKey(
                                     Encoding.UTF8.GetBytes(key)),
 
-                            ValidateIssuer = false,
-                            ValidateAudience = false,
-                            ValidateLifetime = true
+                            ValidateIssuer = true,
+                            ValidIssuer = issuer,
+
+                            ValidateAudience = true,
+                            ValidAudience = audience,
+
+                            ValidateLifetime = true,
+
+                            ClockSkew = TimeSpan.Zero
                         };
                 });
 
-           
             services.AddAuthorization();
 
             return services;

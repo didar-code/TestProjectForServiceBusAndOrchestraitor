@@ -22,9 +22,9 @@ namespace AuthManagementSubSystem.Repository.Security
         }
 
         public string GenerateToken(
-            int userId,
-            string email,
-            string role)
+    int userId,
+    string email,
+    string role)
         {
             var key =
                 _configuration["Jwt:Key"];
@@ -33,20 +33,34 @@ namespace AuthManagementSubSystem.Repository.Security
                 throw new Exception(
                     "JWT Key is not configured.");
 
+            var issuer =
+                _configuration["Jwt:Issuer"];
+
+            if (string.IsNullOrWhiteSpace(issuer))
+                throw new Exception(
+                    "JWT Issuer is not configured.");
+
+            var audience =
+                _configuration["Jwt:Audience"];
+
+            if (string.IsNullOrWhiteSpace(audience))
+                throw new Exception(
+                    "JWT Audience is not configured.");
+
             var claims = new List<Claim>
-            {
-                new Claim(
-                    ClaimTypes.NameIdentifier,
-                    userId.ToString()),
+    {
+        new Claim(
+            ClaimTypes.NameIdentifier,
+            userId.ToString()),
 
-                new Claim(
-                    ClaimTypes.Email,
-                    email),
+        new Claim(
+            ClaimTypes.Email,
+            email),
 
-                new Claim(
-                    ClaimTypes.Role,
-                    role)
-            };
+        new Claim(
+            ClaimTypes.Role,
+            role)
+    };
 
             var securityKey =
                 new SymmetricSecurityKey(
@@ -59,6 +73,8 @@ namespace AuthManagementSubSystem.Repository.Security
 
             var token =
                 new JwtSecurityToken(
+                    issuer: issuer,
+                    audience: audience,
                     claims: claims,
                     expires: DateTime.UtcNow.AddHours(2),
                     signingCredentials: credentials);

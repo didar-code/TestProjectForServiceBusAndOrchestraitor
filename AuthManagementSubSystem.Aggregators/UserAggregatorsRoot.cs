@@ -26,10 +26,7 @@ namespace AuthManagementSubSystem.Aggregators
         {
         }
 
-        public static UserAggregatorsRoot Create(
-            string userName,
-            string email,
-            string passwordHash)
+        public static UserAggregatorsRoot Create(string userName,string email,string passwordHash)
         {
             if (string.IsNullOrWhiteSpace(userName))
                 throw new Exception("Username is required.");

@@ -15,8 +15,7 @@ namespace PaymentManagementSubSystem.Handler.Interfaces
     {
         private readonly IPaymentRepository _repository;
 
-        public ProcessPaymentHandler(
-            IPaymentRepository repository)
+        public ProcessPaymentHandler(IPaymentRepository repository)
         {
             _repository = repository;
         }

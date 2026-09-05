@@ -53,12 +53,15 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth Management API v1");
+        options.SwaggerEndpoint(
+            "/swagger/v1/swagger.json",
+            "Auth Management API v1");
     });
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
