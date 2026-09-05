@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagementSubsystem.DTOs.Commands;
 using OrderManagementSubsystem.DTOs.Queries;
 using OrderManagementSubsystem.DTOs.Responses;
 using OrderManagementSubsystem.Handler.Commands;
-using OrderManagementSubsystem.Handler.Interfaces;
+
 using OrderManagementSubsystem.Handler.Queries;
+using OrderManagementSubsystem.Handler.Validators;
 using OrderManagementSubsystem.Repository.Data;
 using OrderManagementSubsystem.Repository.Interfaces;
 using OrderManagementSubsystem.Repository.Repositories;
@@ -21,16 +23,28 @@ namespace OrderManagementSubsystem.Handler.DependencyInjection
 {
     public static class OrderDependencyInjection
     {
-        public static IServiceCollection AddOrderManagement(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddOrderManagement(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(options =>options.UseSqlServer(configuration.GetConnectionString("OrderCon")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("OrderCon")));
 
-            services.AddScoped<IOrderRepository,OrderRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
-            services.AddScoped<ICommandHandler<CreateOrderCommand>,CreateOrderHandler>();
+          
+            services.AddScoped<CreateOrderHandler>();
+            services.AddScoped<ICommandHandler<CreateOrderCommand>>(sp =>new ValidatingCommandHandlerDecorator<CreateOrderCommand>(
+                    sp.GetRequiredService<CreateOrderHandler>(),
+                    sp.GetService<IValidator<CreateOrderCommand>>()));
 
-            services.AddScoped<ICommandHandler<ConfirmOrderCommand>,ConfirmOrderHandler>();
-            services.AddScoped<IQueryHandler< SearchOrderQuery,IEnumerable<OrderResponseDto>>,SearchOrderHandler>();
+            services.AddScoped<ConfirmOrderHandler>();
+            services.AddScoped<ICommandHandler<ConfirmOrderCommand>>(sp =>
+                new ValidatingCommandHandlerDecorator<ConfirmOrderCommand>(
+                    sp.GetRequiredService<ConfirmOrderHandler>(),
+                    sp.GetService<IValidator<ConfirmOrderCommand>>()));
+
+            services.AddScoped<IQueryHandler<SearchOrderQuery, IEnumerable<OrderResponseDto>>, SearchOrderHandler>();
+
+           
+            services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
             return services;
         }

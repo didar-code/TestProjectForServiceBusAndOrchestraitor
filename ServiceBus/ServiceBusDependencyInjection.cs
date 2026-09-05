@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OrderManagementSubsystem.DTOs.Commands;
 using OrderManagementSubsystem.Handler.Commands;
 using OrderManagementSubsystem.Handler.DependencyInjection;
-using OrderManagementSubsystem.Handler.Interfaces;
+
 using PaymentManagementSubSystem.Handler.Commands;
 using PaymentManagementSubSystem.Handler.DependencyInjection;
 using PaymentManagementSubSystem.Handler.Interfaces;

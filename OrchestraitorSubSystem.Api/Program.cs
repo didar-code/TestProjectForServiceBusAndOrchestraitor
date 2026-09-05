@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OrchestraitorSubSystem.Api.Middleware;
 using OrchestraitorSubSystem.Handler.Orchestraitators;
 using ServiceBus;
 using System.Text;
@@ -75,6 +76,7 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionMiddleware>();
 
 
 if (app.Environment.IsDevelopment())

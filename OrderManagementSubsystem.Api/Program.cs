@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using OrderManagementSubsystem.Api.Middlerware;
 using OrderManagementSubsystem.DTOs.Commands;
 using OrderManagementSubsystem.DTOs.Responses;
 using OrderManagementSubsystem.Handler.Commands;
@@ -54,7 +55,7 @@ builder.Services.AddTokenVarification(builder.Configuration);
 builder.Services.AddOrderManagement(builder.Configuration);
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionMiddleware>();
 
 
 

@@ -20,8 +20,7 @@ namespace OrderManagementSubsystem.Handler.Commands
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Event>> HandleAsync(
-            ConfirmOrderCommand command)
+        public async Task<IEnumerable<Event>> HandleAsync(ConfirmOrderCommand command)
         {
             var order =
                 await _repository.GetByIdAsync(
