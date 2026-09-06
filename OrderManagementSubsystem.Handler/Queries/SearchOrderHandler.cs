@@ -1,5 +1,6 @@
 ﻿using OrderManagementSubsystem.DTOs.Queries;
 using OrderManagementSubsystem.DTOs.Responses;
+using OrderManagementSubsystem.Handler.Mapping;
 using OrderManagementSubsystem.Repository.Interfaces;
 using SharedSubSystem.Generics;
 using System;
@@ -26,14 +27,7 @@ namespace OrderManagementSubsystem.Handler.Queries
                 query.CustomerName,
                 query.Status);
 
-            return orders.Select(x => new OrderResponseDto
-            {
-                OrderId = x.OrderId,
-                CustomerName = x.CustomerName,
-                TotalAmount = x.TotalAmount,
-                Status = x.Status,
-                OrderDate = x.OrderDate
-            });
+            return orders.Select(x => x.ToResponseDto());
         }
     }
 }

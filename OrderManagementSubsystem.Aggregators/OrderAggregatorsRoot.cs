@@ -60,6 +60,7 @@ namespace OrderManagementSubsystem.Aggregators
 
             return this;
         }
+
         public void Confirm()
         {
             if (Status == "Confirmed")
