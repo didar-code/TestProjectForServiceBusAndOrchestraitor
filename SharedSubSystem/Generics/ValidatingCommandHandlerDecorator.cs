@@ -14,7 +14,7 @@ namespace SharedSubSystem.Generics
         private readonly ICommandHandler<TCommand> _inner;
         private readonly IValidator<TCommand>? _validator;
 
-        public ValidatingCommandHandlerDecorator(ICommandHandler<TCommand> inner,
+        public ValidatingCommandHandlerDecorator(ICommandHandler<TCommand> inner, 
             IValidator<TCommand>? validator = null)
         {
             _inner = inner;

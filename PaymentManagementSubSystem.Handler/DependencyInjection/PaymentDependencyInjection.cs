@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PaymentManagementSubSystem.DTOs.Commands;
 using PaymentManagementSubSystem.Handler.Commands;
 using PaymentManagementSubSystem.Handler.Interfaces;
+using PaymentManagementSubSystem.Handler.Queries;
 using PaymentManagementSubSystem.Handler.Validators;
 using PaymentManagementSubSystem.Repository.Data;
 using PaymentManagementSubSystem.Repository.Interfaces;
@@ -44,14 +45,19 @@ namespace PaymentManagementSubSystem.Handler.DependencyInjection
                 new ValidatingCommandHandlerDecorator<FailPaymentCommand>(
                     sp.GetRequiredService<FailPaymentHandler>(),
                     sp.GetService<IValidator<FailPaymentCommand>>()));
+            services.AddScoped<UpdatePaymentHandler>();
+            services.AddScoped<ICommandHandler<UpdatePaymentCommand>>(sp =>
+                new ValidatingCommandHandlerDecorator<UpdatePaymentCommand>(
+                    sp.GetRequiredService<UpdatePaymentHandler>(),
+                    sp.GetService<IValidator<UpdatePaymentCommand>>()));
 
             services.AddScoped<ProcessPaymentHandler>();
             services.AddScoped<ICommandHandler<ProcessPaymentCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<ProcessPaymentCommand>(
                     sp.GetRequiredService<ProcessPaymentHandler>(),
                     sp.GetService<IValidator<ProcessPaymentCommand>>()));
+            services.AddScoped<GetPaymentHandler>();
 
-            
             services.AddValidatorsFromAssemblyContaining<CreatePaymentCommandValidator>();
 
             return services;

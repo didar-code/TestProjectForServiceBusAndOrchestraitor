@@ -22,8 +22,7 @@ namespace OrderManagementSubsystem.Aggregators
         {
         }
 
-        public static OrderAggregatorsRoot Create(
-            string customerName,
+        public static OrderAggregatorsRoot Create(string customerName,
             decimal totalAmount)
         {
             if (string.IsNullOrWhiteSpace(customerName))
@@ -41,6 +40,26 @@ namespace OrderManagementSubsystem.Aggregators
             };
         }
 
+
+        public OrderAggregatorsRoot Update(string customerName,decimal totalAmount)
+        {
+            if (Status == "Confirmed")
+                throw new Exception(
+                    "Confirmed order cannot be updated.");
+
+            if (string.IsNullOrWhiteSpace(customerName))
+                throw new Exception(
+                    "Customer name is required.");
+
+            if (totalAmount <= 0)
+                throw new Exception(
+                    "Total amount must be greater than zero.");
+
+            CustomerName = customerName;
+            TotalAmount = totalAmount;
+
+            return this;
+        }
         public void Confirm()
         {
             if (Status == "Confirmed")

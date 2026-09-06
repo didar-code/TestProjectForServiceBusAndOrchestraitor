@@ -12,7 +12,7 @@ namespace PaymentManagementSubSystem.Repository.Interfaces
         Task AddAsync(PaymentAggregatorsRoot payment);
 
         Task<PaymentAggregatorsRoot> GetByIdAsync(int paymentId);
-
+        Task<IEnumerable<PaymentAggregatorsRoot>> GetAllAsync();
         Task SaveAsync();
     }
 }

@@ -45,6 +45,26 @@ namespace PaymentManagementSubSystem.Aggregators
             };
         }
 
+        public PaymentAggregatorsRoot Update(decimal amount,string paymentMethod)
+        {
+            if (Status == "Confirmed")
+                throw new Exception("Confirmed payment cannot be updated.");
+
+            if (Status == "Failed")
+                throw new Exception("Failed payment cannot be updated.");
+
+            if (amount <= 0)
+                throw new Exception("Payment amount must be greater than zero.");
+
+            if (string.IsNullOrWhiteSpace(paymentMethod))
+                throw new Exception("Payment method is required.");
+
+            Amount = amount;
+            PaymentMethod = paymentMethod;
+
+            return this;
+        }
+
         public void Confirm()
         {
             if (Status == "Confirmed")

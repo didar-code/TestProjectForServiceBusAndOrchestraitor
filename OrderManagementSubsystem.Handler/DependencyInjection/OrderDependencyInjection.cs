@@ -42,8 +42,14 @@ namespace OrderManagementSubsystem.Handler.DependencyInjection
                     sp.GetService<IValidator<ConfirmOrderCommand>>()));
 
             services.AddScoped<IQueryHandler<SearchOrderQuery, IEnumerable<OrderResponseDto>>, SearchOrderHandler>();
+            services.AddScoped<UpdateOrderHandler>();
 
-           
+            services.AddScoped<ICommandHandler<UpdateOrderCommand>>(sp =>
+                new ValidatingCommandHandlerDecorator<UpdateOrderCommand>(
+                    sp.GetRequiredService<UpdateOrderHandler>(),
+                    sp.GetService<IValidator<UpdateOrderCommand>>()));
+
+
             services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
             return services;

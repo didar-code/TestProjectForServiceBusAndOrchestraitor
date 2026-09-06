@@ -24,12 +24,16 @@ namespace PaymentManagementSubSystem.Repository.Repositories
             await _context.Payments.AddAsync(payment);
         }
 
-        public async Task<PaymentAggregatorsRoot> GetByIdAsync(
-            int paymentId)
+        public async Task<PaymentAggregatorsRoot?> GetByIdAsync(int paymentId)
         {
             return await _context.Payments.FirstOrDefaultAsync(x => x.PaymentId == paymentId);
         }
 
+        public async Task<IEnumerable<PaymentAggregatorsRoot>> GetAllAsync()
+        {
+            return await _context.Payments
+                .ToListAsync();
+        }
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

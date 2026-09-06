@@ -10,8 +10,4 @@
     <ProjectReference Include="..\SharedSubSystem\SharedSubSystem.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Responses\" />
-  </ItemGroup>
-
 </Project>

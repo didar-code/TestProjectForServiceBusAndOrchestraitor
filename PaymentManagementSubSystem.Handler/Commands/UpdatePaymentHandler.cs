@@ -11,35 +11,39 @@ using System.Threading.Tasks;
 
 namespace PaymentManagementSubSystem.Handler.Commands
 {
-    public class ConfirmPaymentHandler : ICommandHandler<ConfirmPaymentCommand>
+    public class UpdatePaymentHandler
+       : ICommandHandler<UpdatePaymentCommand>
     {
         private readonly IPaymentRepository _repository;
 
-        public ConfirmPaymentHandler(
-            IPaymentRepository repository)
+        public UpdatePaymentHandler(IPaymentRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Event>> HandleAsync(ConfirmPaymentCommand command)
+        public async Task<IEnumerable<Event>> HandleAsync(
+            UpdatePaymentCommand command)
         {
-            var payment = await _repository.GetByIdAsync(command.PaymentId);
+            var payment = await _repository.GetByIdAsync(
+                command.PaymentId);
 
             if (payment == null)
-            {
                 throw new Exception("Payment not found.");
-            }
 
-            payment.Confirm();
+            payment.Update(
+                command.Amount,
+                command.PaymentMethod);
 
             await _repository.SaveAsync();
 
             return new List<Event>
             {
-                new PaymentCompletedEvent(
-                    payment.PaymentId,
-                    payment.OrderId,
-                    payment.Amount)
+                new PaymentUpdatedEvent
+                {
+                    PaymentId = payment.PaymentId,
+                    OrderId = payment.OrderId,
+                    Amount = payment.Amount
+                }
             };
         }
     }

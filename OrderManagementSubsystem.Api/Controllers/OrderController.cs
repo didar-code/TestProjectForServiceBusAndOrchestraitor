@@ -15,11 +15,14 @@ namespace OrderManagementSubsystem.Api.Controllers
     {
         private readonly ICommandHandler<CreateOrderCommand> _createHandler;
         private readonly IQueryHandler<SearchOrderQuery, IEnumerable<OrderResponseDto>> _searchHandler;
+        private readonly ICommandHandler<UpdateOrderCommand> _updateHandler;
 
-        public OrderController(ICommandHandler<CreateOrderCommand> createHandler, IQueryHandler<SearchOrderQuery, IEnumerable<OrderResponseDto>> searchHandler)
+        public OrderController(ICommandHandler<CreateOrderCommand> createHandler, IQueryHandler<SearchOrderQuery, 
+            IEnumerable<OrderResponseDto>> searchHandler, ICommandHandler<UpdateOrderCommand> updateHandler)
         {
             _createHandler = createHandler;
             _searchHandler = searchHandler;
+            _updateHandler = updateHandler;
         }
 
         [HttpPost]
@@ -30,6 +33,19 @@ namespace OrderManagementSubsystem.Api.Controllers
 
             return Ok(events);
         }
+
+        [HttpPut("{orderId:int}")]
+        public async Task<IActionResult> Update(
+           int orderId,
+           [FromBody] UpdateOrderCommand command)
+        {
+            command.OrderId = orderId;
+
+            var result = await _updateHandler.HandleAsync(command);
+
+            return Ok(result);
+        }
+
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] SearchOrderQuery query)
         {
