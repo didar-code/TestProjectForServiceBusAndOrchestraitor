@@ -21,8 +21,7 @@ namespace AuthManagementSubSystem.Repository.Security
             _configuration = configuration;
         }
 
-        public string GenerateToken(
-    int userId,
+        public string GenerateToken(int userId,
     string email,
     string role)
         {

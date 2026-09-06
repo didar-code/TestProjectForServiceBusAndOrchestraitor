@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PaymentManagementSubSystem.DTOs.Commands;
 using PaymentManagementSubSystem.Handler.Commands;
-using PaymentManagementSubSystem.Handler.Interfaces;
 using PaymentManagementSubSystem.Handler.Queries;
 using PaymentManagementSubSystem.Handler.Validators;
 using PaymentManagementSubSystem.Repository.Data;

@@ -6,7 +6,7 @@ using OrderManagementSubsystem.Handler.DependencyInjection;
 
 using PaymentManagementSubSystem.Handler.Commands;
 using PaymentManagementSubSystem.Handler.DependencyInjection;
-using PaymentManagementSubSystem.Handler.Interfaces;
+
 using SharedSubSystem.Generics;
 using System;
 using System.Collections.Generic;

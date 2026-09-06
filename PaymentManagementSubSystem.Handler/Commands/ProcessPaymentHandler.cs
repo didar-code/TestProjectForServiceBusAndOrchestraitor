@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentManagementSubSystem.Handler.Interfaces
+namespace PaymentManagementSubSystem.Handler.Commands
 {
     public class ProcessPaymentHandler : ICommandHandler<ProcessPaymentCommand>
     {
