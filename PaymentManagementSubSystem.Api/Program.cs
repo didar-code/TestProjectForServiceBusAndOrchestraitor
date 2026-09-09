@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
-using PaymentManagementSubSystem.Api.Middleware;
+
 using PaymentManagementSubSystem.Handler.DependencyInjection;
+using SharedSubSystem.Middleware;
 using SharedSubSystem.Security;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,7 +47,7 @@ builder.Services.AddTokenVarification(
     builder.Configuration);
 
 var app = builder.Build();
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

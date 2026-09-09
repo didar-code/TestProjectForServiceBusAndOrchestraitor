@@ -1,6 +1,7 @@
 ﻿using PaymentManagementSubSystem.DTOs.Responses;
 using PaymentManagementSubSystem.Handler.Mapping;
 using PaymentManagementSubSystem.Repository.Interfaces;
+using SharedSubSystem.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace PaymentManagementSubSystem.Handler.Queries
             var payment = await _repository.GetByIdAsync(paymentId);
 
             if (payment == null)
-                throw new Exception("Payment not found.");
+                throw new NotFoundException("Payment not found.");
 
             return payment.ToResponseDto();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedSubSystem.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,16 +27,16 @@ namespace AuthManagementSubSystem.Aggregators
         {
         }
 
-        public static UserAggregatorsRoot Create(string userName,string email,string passwordHash)
+        public static UserAggregatorsRoot Create(string userName, string email, string passwordHash)
         {
             if (string.IsNullOrWhiteSpace(userName))
-                throw new Exception("Username is required.");
+                throw new BusinessRuleException("Username is required.");   
 
             if (string.IsNullOrWhiteSpace(email))
-                throw new Exception("Email is required.");
+                throw new BusinessRuleException("Email is required.");  
 
             if (string.IsNullOrWhiteSpace(passwordHash))
-                throw new Exception("Password hash is required.");
+                throw new BusinessRuleException("Password hash is required.");   
 
             return new UserAggregatorsRoot
             {

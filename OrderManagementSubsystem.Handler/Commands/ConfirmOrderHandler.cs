@@ -2,6 +2,7 @@
 using OrderManagementSubsystem.DTOs.Events;
 using OrderManagementSubsystem.Repository.Interfaces;
 using SharedSubSystem.Events;
+using SharedSubSystem.Exceptions;
 using SharedSubSystem.Generics;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace OrderManagementSubsystem.Handler.Commands
                     command.OrderId);
 
             if (order == null)
-                throw new Exception("Order not found.");
+                throw new NotFoundException("Order not found.");
 
             order.Confirm();
 

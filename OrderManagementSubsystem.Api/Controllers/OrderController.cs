@@ -19,7 +19,8 @@ namespace OrderManagementSubsystem.Api.Controllers
         private readonly ICommandHandler<AddOrderItemCommand> _addItemHandler;
 
         public OrderController(ICommandHandler<CreateOrderCommand> createHandler, IQueryHandler<SearchOrderQuery, 
-            IEnumerable<OrderResponseDto>> searchHandler, ICommandHandler<UpdateOrderCommand> updateHandler, ICommandHandler<AddOrderItemCommand> addItemHandler)
+            IEnumerable<OrderResponseDto>> searchHandler, ICommandHandler<UpdateOrderCommand> updateHandler,
+            ICommandHandler<AddOrderItemCommand> addItemHandler)
         {
             _createHandler = createHandler;
             _searchHandler = searchHandler;
@@ -37,9 +38,7 @@ namespace OrderManagementSubsystem.Api.Controllers
         }
 
         [HttpPut("{orderId:int}")]
-        public async Task<IActionResult> Update(
-           int orderId,
-           [FromBody] UpdateOrderCommand command)
+        public async Task<IActionResult> Update(int orderId,[FromBody] UpdateOrderCommand command)
         {
             command.OrderId = orderId;
 

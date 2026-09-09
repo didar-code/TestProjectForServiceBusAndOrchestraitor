@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using OrderManagementSubsystem.Api.Middlerware;
+
 using OrderManagementSubsystem.DTOs.Commands;
 using OrderManagementSubsystem.DTOs.Responses;
 using OrderManagementSubsystem.Handler.Commands;
@@ -10,6 +10,7 @@ using OrderManagementSubsystem.Repository.Interfaces;
 using OrderManagementSubsystem.Repository.Repositories;
 
 using SharedSubSystem.Generics;
+using SharedSubSystem.Middleware;
 using SharedSubSystem.Security;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,7 +56,7 @@ builder.Services.AddTokenVarification(builder.Configuration);
 builder.Services.AddOrderManagement(builder.Configuration);
 
 var app = builder.Build();
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 
 

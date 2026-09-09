@@ -2,6 +2,7 @@
 using OrderManagementSubsystem.DTOs.Events;
 using OrderManagementSubsystem.Repository.Interfaces;
 using SharedSubSystem.Events;
+using SharedSubSystem.Exceptions;
 using SharedSubSystem.Generics;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace OrderManagementSubsystem.Handler.Commands
             var order = await _repository.GetByIdAsync(command.OrderId);
 
             if (order == null)
-                throw new Exception("Order not found.");
+                throw new NotFoundException("Order not found.");
 
             order.AddItem(command.ProductName, command.Quantity, command.UnitPrice);
 

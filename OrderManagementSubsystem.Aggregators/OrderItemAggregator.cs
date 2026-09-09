@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedSubSystem.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace OrderManagementSubsystem.Aggregators
     {
         public int OrderItemId { get; private set; }
 
-        public int OrderId { get; private set; }   
+        public int OrderId { get; private set; }
 
         public string ProductName { get; private set; } = string.Empty;
 
@@ -24,17 +25,17 @@ namespace OrderManagementSubsystem.Aggregators
         {
         }
 
-     
+
         internal static OrderItemAggregator Create(string productName, int quantity, decimal unitPrice)
         {
             if (string.IsNullOrWhiteSpace(productName))
-                throw new Exception("Product name is required.");
+                throw new BusinessRuleException("Product name is required.");   
 
             if (quantity <= 0)
-                throw new Exception("Quantity must be greater than zero.");
+                throw new BusinessRuleException("Quantity must be greater than zero.");   
 
             if (unitPrice <= 0)
-                throw new Exception("Unit price must be greater than zero.");
+                throw new BusinessRuleException("Unit price must be greater than zero.");  
 
             return new OrderItemAggregator
             {

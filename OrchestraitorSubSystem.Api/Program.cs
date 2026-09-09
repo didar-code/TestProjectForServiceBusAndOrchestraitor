@@ -1,7 +1,8 @@
 using Microsoft.OpenApi.Models;
-using OrchestraitorSubSystem.Api.Middleware;
+
 using OrchestraitorSubSystem.Handler.Orchestraitators;
 using ServiceBus;
+using SharedSubSystem.Middleware;
 using SharedSubSystem.Security;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,7 +63,7 @@ builder.Services.AddScoped<OrderPaymentOrchestrator>();
 
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

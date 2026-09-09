@@ -2,6 +2,7 @@
 using PaymentManagementSubSystem.DTOs.Events;
 using PaymentManagementSubSystem.Repository.Interfaces;
 using SharedSubSystem.Events;
+using SharedSubSystem.Exceptions;
 using SharedSubSystem.Generics;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace PaymentManagementSubSystem.Handler.Commands
                 command.PaymentId);
 
             if (payment == null)
-                throw new Exception("Payment not found.");
+                throw new NotFoundException("Payment not found.");
 
             payment.Update(
                 command.Amount,

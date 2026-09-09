@@ -1,9 +1,11 @@
 ﻿using AuthManagementSubSystem.DTOs.Commands;
 using AuthManagementSubSystem.Handlers.Commands;
+using AuthManagementSubSystem.Handlers.Validators;
 using AuthManagementSubSystem.Repository.Data;
 using AuthManagementSubSystem.Repository.Interfaces;
 using AuthManagementSubSystem.Repository.Repositories;
 using AuthManagementSubSystem.Repository.Security;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,25 +24,31 @@ namespace AuthManagementSubSystem.Handlers.DependencyInjection
                 options.UseSqlServer(
                     configuration.GetConnectionString("AuthCon")));
 
-            services.AddScoped<
-                IUserRepository,
-                UserRepository>();
+            services.AddScoped
+                <IUserRepository,
+                UserRepository > ();
 
-            services.AddScoped<
-                IPasswordHasher,
-                PasswordHasher>();
+            services.AddScoped
+                <IPasswordHasher,
+                PasswordHasher > ();
 
-            services.AddScoped<
-                ITokenService,
-                JwtTokenService>();
+            services.AddScoped
+                <ITokenService,
+                JwtTokenService > ();
 
-            services.AddScoped<
-                ICommandHandler<RegisterUserCommand>,
-                RegisterUserHandler>();
+            services.AddScoped<RegisterUserHandler>();
+            services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserCommandValidator>();
+            services.AddScoped<ICommandHandler<RegisterUserCommand>>(sp =>
+                new ValidatingCommandHandlerDecorator<RegisterUserCommand>(
+                    sp.GetRequiredService<RegisterUserHandler>(),
+                    sp.GetService<IValidator<RegisterUserCommand>>()));
 
-            services.AddScoped<
-                ICommandHandler<LoginCommand>,
-                LoginHandler>();
+            services.AddScoped<LoginHandler>();
+            services.AddScoped<IValidator<LoginCommand>, LoginCommandValidator>();
+            services.AddScoped<ICommandHandler<LoginCommand>>(sp =>
+                new ValidatingCommandHandlerDecorator<LoginCommand>(
+                    sp.GetRequiredService<LoginHandler>(),
+                    sp.GetService<IValidator<LoginCommand>>()));
 
             return services;
         }
