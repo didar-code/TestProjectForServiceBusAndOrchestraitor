@@ -13,8 +13,7 @@ namespace AuthManagementSubSystem.Api.Controllers
         private readonly ICommandHandler<RegisterUserCommand> _registerHandler;
         private readonly ICommandHandler<LoginCommand> _loginHandler;
 
-        public AuthController(
-            ICommandHandler<RegisterUserCommand> registerHandler,
+        public AuthController(ICommandHandler<RegisterUserCommand> registerHandler,
             ICommandHandler<LoginCommand> loginHandler)
         {
             _registerHandler = registerHandler;
@@ -43,8 +42,7 @@ namespace AuthManagementSubSystem.Api.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(
-     [FromBody] LoginCommand command)
+        public async Task<IActionResult> Login([FromBody] LoginCommand command)
         {
             try
             {

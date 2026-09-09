@@ -47,6 +47,7 @@ builder.Services.AddAuthManagement(builder.Configuration);
 
 var app = builder.Build();
 
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

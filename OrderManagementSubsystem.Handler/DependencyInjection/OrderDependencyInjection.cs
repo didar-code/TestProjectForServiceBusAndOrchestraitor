@@ -48,7 +48,11 @@ namespace OrderManagementSubsystem.Handler.DependencyInjection
                 new ValidatingCommandHandlerDecorator<UpdateOrderCommand>(
                     sp.GetRequiredService<UpdateOrderHandler>(),
                     sp.GetService<IValidator<UpdateOrderCommand>>()));
-
+            services.AddScoped<AddOrderItemHandler>();
+            services.AddScoped<ICommandHandler<AddOrderItemCommand>>(sp =>
+                new ValidatingCommandHandlerDecorator<AddOrderItemCommand>(
+                    sp.GetRequiredService<AddOrderItemHandler>(),
+                    sp.GetService<IValidator<AddOrderItemCommand>>()));
 
             services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 

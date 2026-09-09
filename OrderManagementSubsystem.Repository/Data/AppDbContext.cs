@@ -38,6 +38,44 @@ namespace OrderManagementSubsystem.Repository.Data
 
                 entity.Property(x => x.OrderDate)
                     .IsRequired();
+
+        
+                entity.HasMany(x => x.Items)
+                    .WithOne()
+                    .HasForeignKey(i => i.OrderId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+             
+                entity.Metadata
+                    .FindNavigation(nameof(OrderAggregatorsRoot.Items))!
+                    .SetPropertyAccessMode(PropertyAccessMode.Field);
+            });
+
+        
+            modelBuilder.Entity<OrderItemAggregator>(entity =>
+            {
+                entity.HasKey(x => x.OrderItemId);
+
+                entity.Property(x => x.OrderItemId)
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(x => x.ProductName)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(x => x.Quantity)
+                    .IsRequired();
+
+                entity.Property(x => x.UnitPrice)
+                    .HasColumnType("decimal(18,2)")
+                    .IsRequired();
+
+               
+                entity.Ignore(x => x.LineTotal);
+
+                entity.Metadata
+                    .FindProperty(nameof(OrderItemAggregator.OrderId))!
+                    .SetPropertyAccessMode(PropertyAccessMode.Field);
             });
         }
     }

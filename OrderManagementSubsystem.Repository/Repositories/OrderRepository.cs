@@ -25,10 +25,9 @@ namespace OrderManagementSubsystem.Repository.Repositories
             await _context.Orders.AddAsync(order);
         }
 
-        public async Task<OrderAggregatorsRoot?> GetByIdAsync(
-            int orderId)
+        public async Task<OrderAggregatorsRoot?> GetByIdAsync(int orderId)
         {
-            return await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == orderId);
+            return await _context.Orders.Include(x => x.Items).FirstOrDefaultAsync(x => x.OrderId == orderId);
         }
         public async Task<IEnumerable<OrderAggregatorsRoot>> SearchAsync(int? orderId,string? customerName,string? status)
         {

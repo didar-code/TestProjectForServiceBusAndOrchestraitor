@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
+
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,

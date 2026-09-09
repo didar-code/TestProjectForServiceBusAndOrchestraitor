@@ -16,13 +16,15 @@ namespace OrderManagementSubsystem.Api.Controllers
         private readonly ICommandHandler<CreateOrderCommand> _createHandler;
         private readonly IQueryHandler<SearchOrderQuery, IEnumerable<OrderResponseDto>> _searchHandler;
         private readonly ICommandHandler<UpdateOrderCommand> _updateHandler;
+        private readonly ICommandHandler<AddOrderItemCommand> _addItemHandler;
 
         public OrderController(ICommandHandler<CreateOrderCommand> createHandler, IQueryHandler<SearchOrderQuery, 
-            IEnumerable<OrderResponseDto>> searchHandler, ICommandHandler<UpdateOrderCommand> updateHandler)
+            IEnumerable<OrderResponseDto>> searchHandler, ICommandHandler<UpdateOrderCommand> updateHandler, ICommandHandler<AddOrderItemCommand> addItemHandler)
         {
             _createHandler = createHandler;
             _searchHandler = searchHandler;
             _updateHandler = updateHandler;
+            _addItemHandler = addItemHandler;
         }
 
         [HttpPost]
@@ -51,6 +53,14 @@ namespace OrderManagementSubsystem.Api.Controllers
         {
             var result =await _searchHandler.HandleAsync(query);
 
+            return Ok(result);
+        }
+        [HttpPost("{orderId:int}/items")]
+        [Authorize]
+        public async Task<IActionResult> AddItem(int orderId, [FromBody] AddOrderItemCommand command)
+        {
+            command.OrderId = orderId;
+            var result = await _addItemHandler.HandleAsync(command);
             return Ok(result);
         }
     }
