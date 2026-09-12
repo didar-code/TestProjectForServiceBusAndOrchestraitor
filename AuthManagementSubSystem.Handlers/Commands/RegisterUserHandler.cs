@@ -42,7 +42,6 @@ namespace AuthManagementSubSystem.Handlers.Commands
 
             var user =
                 UserAggregatorsRoot.Create(
-                    command.UserName,
                     command.Email,
                     passwordHash);
 
