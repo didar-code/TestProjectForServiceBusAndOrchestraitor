@@ -38,6 +38,7 @@ namespace OrderManagementSubsystem.Api.Controllers
         }
 
         [HttpPut("{orderId:int}")]
+        [Authorize]
         public async Task<IActionResult> Update(int orderId,[FromBody] UpdateOrderCommand command)
         {
             command.OrderId = orderId;
@@ -49,12 +50,12 @@ namespace OrderManagementSubsystem.Api.Controllers
 
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] SearchOrderQuery query)
-        {
+         {
             var result =await _searchHandler.HandleAsync(query);
 
             return Ok(result);
-        }
-        [HttpPost("{orderId:int}/items")]
+         }
+        [HttpPost("{orderId}/items")]
         [Authorize]
         public async Task<IActionResult> AddItem(int orderId, [FromBody] AddOrderItemCommand command)
         {

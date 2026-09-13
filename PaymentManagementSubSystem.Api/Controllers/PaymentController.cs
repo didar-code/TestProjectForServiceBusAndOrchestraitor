@@ -50,6 +50,7 @@ namespace PaymentManagementSubSystem.Api.Controllers
 
 
         [HttpPut("{paymentId}")]
+        [Authorize]
         public async Task<IActionResult> Update(int paymentId,
             [FromBody] UpdatePaymentCommand command)
         {

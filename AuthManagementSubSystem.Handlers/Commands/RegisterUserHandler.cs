@@ -5,6 +5,7 @@ using AuthManagementSubSystem.Repository.Interfaces;
 using AuthManagementSubSystem.Repository.Security;
 using Microsoft.AspNetCore.Identity;
 using SharedSubSystem.Events;
+using SharedSubSystem.Exceptions;
 using SharedSubSystem.Generics;
 using SharedSubSystem.Security;
 using System;
@@ -33,16 +34,13 @@ namespace AuthManagementSubSystem.Handlers.Commands
                     command.Email);
 
             if (exists)
-                throw new Exception(
-                    "Email already exists.");
+                throw new ConflictException("Email already exists.");
 
             var passwordHash =
-                _passwordHasher.Hash(
-                    command.Password);
+                _passwordHasher.Hash(command.Password);
 
             var user =
-                UserAggregatorsRoot.Create(
-                    command.Email,
+                UserAggregatorsRoot.Create(command.UserName,command.Email,
                     passwordHash);
 
             await _repository.AddAsync(user);

@@ -28,7 +28,7 @@ namespace OrderManagementSubsystem.Handler.Commands
                 command.OrderId);
 
             if (order == null)
-                throw new NotFoundException("Order not found.");
+                throw new NotFoundException ("Order not found.");
          
 
             order.Update(

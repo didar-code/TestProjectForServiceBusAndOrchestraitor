@@ -3,6 +3,7 @@ using AuthManagementSubSystem.DTOs.Events;
 using AuthManagementSubSystem.Repository.Interfaces;
 using AuthManagementSubSystem.Repository.Security;
 using SharedSubSystem.Events;
+using SharedSubSystem.Exceptions;
 using SharedSubSystem.Generics;
 using SharedSubSystem.Security;
 
@@ -14,12 +15,13 @@ namespace AuthManagementSubSystem.Handlers.Commands
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenService _tokenService;
 
-        public LoginHandler(IUserRepository repository,IPasswordHasher passwordHasher,ITokenService tokenService)
+        public LoginHandler(IUserRepository repository, IPasswordHasher passwordHasher, ITokenService tokenService)
         {
             _repository = repository;
             _passwordHasher = passwordHasher;
             _tokenService = tokenService;
         }
+
 
         public async Task<IEnumerable<Event>> HandleAsync(LoginCommand command)
         {
@@ -28,12 +30,10 @@ namespace AuthManagementSubSystem.Handlers.Commands
                     command.Email);
 
             if (user == null)
-                throw new Exception(
-                    "Invalid email or password.");
+                throw new AuthenticationException("Invalid email or password.");
 
             if (!user.IsActive)
-                throw new Exception(
-                    "User account is inactive.");
+                throw new AuthenticationException( "User account is inactive.");
 
             var passwordValid =
                 _passwordHasher.Verify(
@@ -41,10 +41,10 @@ namespace AuthManagementSubSystem.Handlers.Commands
                     user.PasswordHash);
 
             if (!passwordValid)
-                throw new Exception("Invalid email or password.");
+                throw new AuthenticationException("Invalid email or password.");   
 
             var token =
-                _tokenService.GenerateToken(user.UserId,user.Email,user.Role);
+                _tokenService.GenerateToken(user.UserId, user.Email, user.Role);
 
             return new List<Event>
             {

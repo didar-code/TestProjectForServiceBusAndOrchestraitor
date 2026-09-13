@@ -30,31 +30,21 @@ namespace PaymentManagementSubSystem.Handler.DependencyInjection
             services.AddScoped<CreatePaymentHandler>();
             services.AddScoped<ICommandHandler<CreatePaymentCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<CreatePaymentCommand>(
-                    sp.GetRequiredService<CreatePaymentHandler>(),
-                    sp.GetService<IValidator<CreatePaymentCommand>>()));
-
-            services.AddScoped<ConfirmPaymentHandler>();
-            services.AddScoped<ICommandHandler<ConfirmPaymentCommand>>(sp =>
-                new ValidatingCommandHandlerDecorator<ConfirmPaymentCommand>(
-                    sp.GetRequiredService<ConfirmPaymentHandler>(),
-                    sp.GetService<IValidator<ConfirmPaymentCommand>>()));
+                    sp.GetRequiredService<CreatePaymentHandler>()));
 
             services.AddScoped<FailPaymentHandler>();
             services.AddScoped<ICommandHandler<FailPaymentCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<FailPaymentCommand>(
-                    sp.GetRequiredService<FailPaymentHandler>(),
-                    sp.GetService<IValidator<FailPaymentCommand>>()));
+                    sp.GetRequiredService<FailPaymentHandler>()));
             services.AddScoped<UpdatePaymentHandler>();
             services.AddScoped<ICommandHandler<UpdatePaymentCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<UpdatePaymentCommand>(
-                    sp.GetRequiredService<UpdatePaymentHandler>(),
-                    sp.GetService<IValidator<UpdatePaymentCommand>>()));
+                    sp.GetRequiredService<UpdatePaymentHandler>()));
 
             services.AddScoped<ProcessPaymentHandler>();
             services.AddScoped<ICommandHandler<ProcessPaymentCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<ProcessPaymentCommand>(
-                    sp.GetRequiredService<ProcessPaymentHandler>(),
-                    sp.GetService<IValidator<ProcessPaymentCommand>>()));
+                    sp.GetRequiredService<ProcessPaymentHandler>()));
             services.AddScoped<GetPaymentHandler>();
 
             services.AddValidatorsFromAssemblyContaining<CreatePaymentCommandValidator>();

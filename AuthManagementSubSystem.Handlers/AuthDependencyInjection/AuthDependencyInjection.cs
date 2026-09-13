@@ -40,15 +40,13 @@ namespace AuthManagementSubSystem.Handlers.DependencyInjection
             services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserCommandValidator>();
             services.AddScoped<ICommandHandler<RegisterUserCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<RegisterUserCommand>(
-                    sp.GetRequiredService<RegisterUserHandler>(),
-                    sp.GetService<IValidator<RegisterUserCommand>>()));
+                    sp.GetRequiredService<RegisterUserHandler>()));
 
             services.AddScoped<LoginHandler>();
             services.AddScoped<IValidator<LoginCommand>, LoginCommandValidator>();
             services.AddScoped<ICommandHandler<LoginCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<LoginCommand>(
-                    sp.GetRequiredService<LoginHandler>(),
-                    sp.GetService<IValidator<LoginCommand>>()));
+                    sp.GetRequiredService<LoginHandler>()));
 
             return services;
         }

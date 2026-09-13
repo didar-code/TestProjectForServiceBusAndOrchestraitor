@@ -17,10 +17,8 @@ namespace SharedSubSystem.Middleware
         private readonly ILogger<GlobalExceptionMiddleware> _logger;
         private readonly IHostEnvironment _env;
 
-        public GlobalExceptionMiddleware(
-            RequestDelegate next,
-            ILogger<GlobalExceptionMiddleware> logger,
-            IHostEnvironment env)
+        public GlobalExceptionMiddleware(RequestDelegate next,
+            ILogger<GlobalExceptionMiddleware> logger,IHostEnvironment env)
         {
             _next = next;
             _logger = logger;
@@ -35,9 +33,7 @@ namespace SharedSubSystem.Middleware
             }
             catch (ValidationException ex)
             {
-                
-                var errors = string.Join("; ", ex.Errors.Select(e => e.ErrorMessage));
-                await WriteResponse(context, StatusCodes.Status400BadRequest, errors);
+                await WriteResponse(context, StatusCodes.Status400BadRequest, ex.Message);
             }
             catch (NotFoundException ex)
             {
@@ -69,8 +65,8 @@ namespace SharedSubSystem.Middleware
                     : "An unexpected error occurred. Please try again later.";
 
                 await WriteResponse(context, StatusCodes.Status500InternalServerError, message);
+                
             }
-           
         }
 
         private static async Task WriteResponse(HttpContext context, int statusCode, string error)

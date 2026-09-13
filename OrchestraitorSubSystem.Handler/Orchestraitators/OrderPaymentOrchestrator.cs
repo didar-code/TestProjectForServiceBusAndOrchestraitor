@@ -2,11 +2,7 @@
 using OrderManagementSubsystem.DTOs.Commands;
 using PaymentManagementSubSystem.DTOs.Commands;
 using ServiceBus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace OrchestraitorSubSystem.Handler.Orchestraitators
 {
@@ -23,38 +19,42 @@ namespace OrchestraitorSubSystem.Handler.Orchestraitators
         {
             try
             {
-                var paymentEvents = await _serviceBus.SendCommandAsync(
-                    new ProcessPaymentCommand(command.PaymentId));
+                var processPaymentCommand = new ProcessPaymentCommand(command.PaymentId);
+                
+
+                var paymentEvents = await _serviceBus.SendCommandAsync(processPaymentCommand);
 
                 if (!paymentEvents.Any())
                     return false;
 
-                var orderEvents =await _serviceBus.SendCommandAsync(
-                        new ConfirmOrderCommand
-                        {
-                            OrderId = command.OrderId,
-                            PaymentId = command.PaymentId
-                        });
+                var confirmOrderCommand = new ConfirmOrderCommand
+                {
+                    OrderId = command.OrderId,
+                    PaymentId = command.PaymentId
+                };
+
+                var orderEvents = await _serviceBus.SendCommandAsync(confirmOrderCommand);   
 
                 if (orderEvents.Any())
                     return true;
 
-                await _serviceBus.SendCommandAsync(
-                    new FailPaymentCommand
-                    {
-                        PaymentId = command.PaymentId
-                    });
+                var failPaymentCommand = new FailPaymentCommand
+                {
+                    PaymentId = command.PaymentId
+                };
+
+                await _serviceBus.SendCommandAsync(failPaymentCommand);
 
                 return false;
             }
             catch
             {
-                await _serviceBus.SendCommandAsync(
-                    
-                    new FailPaymentCommand
-                    {
-                        PaymentId = command.PaymentId
-                    });
+                var failPaymentCommand = new FailPaymentCommand
+                {
+                    PaymentId = command.PaymentId
+                };
+
+                await _serviceBus.SendCommandAsync(failPaymentCommand);
 
                 return false;
             }

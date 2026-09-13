@@ -1,4 +1,5 @@
 ﻿
+using SharedSubSystem;
 using SharedSubSystem.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OrderManagementSubsystem.Aggregators
 {
-    public class OrderAggregatorsRoot
+    public class OrderAggregatorsRoot : IAggregetRoot
     {
         public int OrderId { get; private set; }
 
@@ -29,8 +30,7 @@ namespace OrderManagementSubsystem.Aggregators
         {
         }
 
-        public static OrderAggregatorsRoot Create(string customerName,
-            decimal totalAmount)
+        public static OrderAggregatorsRoot Create(string customerName,decimal totalAmount)
         {
             if (string.IsNullOrWhiteSpace(customerName))
                 throw new BusinessRuleException("Customer name is required.");   
@@ -79,20 +79,20 @@ namespace OrderManagementSubsystem.Aggregators
             TotalAmount = _items.Sum(x => x.LineTotal);
         }
 
-        public void RemoveItem(int orderItemId)
-        {
-            if (Status != "Pending")
-                throw new ConflictException("Items can only be removed while order is pending.");   
+        //public void RemoveItem(int orderItemId)
+        //{
+        //    if (Status != "Pending")
+        //        throw new ConflictException("Items can only be removed while order is pending.");   
 
-            var item = _items.FirstOrDefault(x => x.OrderItemId == orderItemId);
+        //    var item = _items.FirstOrDefault(x => x.OrderItemId == orderItemId);
 
-            if (item == null)
-                throw new NotFoundException("Order item not found."); 
+        //    if (item == null)
+        //        throw new NotFoundException("Order item not found."); 
 
-            _items.Remove(item);
+        //    _items.Remove(item);
 
-            TotalAmount = _items.Sum(x => x.LineTotal);
-        }
+        //    TotalAmount = _items.Sum(x => x.LineTotal);
+        //}
 
         public void Confirm()
         {

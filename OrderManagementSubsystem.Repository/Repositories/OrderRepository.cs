@@ -31,7 +31,7 @@ namespace OrderManagementSubsystem.Repository.Repositories
         }
         public async Task<IEnumerable<OrderAggregatorsRoot>> SearchAsync(int? orderId,string? customerName,string? status)
         {
-            var query = _context.Orders.AsQueryable();
+            var query = _context.Orders.Include(x => x.Items).AsQueryable();
 
             if (orderId.HasValue)
             {

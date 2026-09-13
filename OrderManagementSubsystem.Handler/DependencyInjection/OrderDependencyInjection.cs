@@ -32,27 +32,23 @@ namespace OrderManagementSubsystem.Handler.DependencyInjection
           
             services.AddScoped<CreateOrderHandler>();
             services.AddScoped<ICommandHandler<CreateOrderCommand>>(sp =>new ValidatingCommandHandlerDecorator<CreateOrderCommand>(
-                    sp.GetRequiredService<CreateOrderHandler>(),
-                    sp.GetService<IValidator<CreateOrderCommand>>()));
+                    sp.GetRequiredService<CreateOrderHandler>()));
 
             services.AddScoped<ConfirmOrderHandler>();
             services.AddScoped<ICommandHandler<ConfirmOrderCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<ConfirmOrderCommand>(
-                    sp.GetRequiredService<ConfirmOrderHandler>(),
-                    sp.GetService<IValidator<ConfirmOrderCommand>>()));
+                    sp.GetRequiredService<ConfirmOrderHandler>()));
 
             services.AddScoped<IQueryHandler<SearchOrderQuery, IEnumerable<OrderResponseDto>>, SearchOrderHandler>();
             services.AddScoped<UpdateOrderHandler>();
 
             services.AddScoped<ICommandHandler<UpdateOrderCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<UpdateOrderCommand>(
-                    sp.GetRequiredService<UpdateOrderHandler>(),
-                    sp.GetService<IValidator<UpdateOrderCommand>>()));
+                    sp.GetRequiredService<UpdateOrderHandler>()));
             services.AddScoped<AddOrderItemHandler>();
             services.AddScoped<ICommandHandler<AddOrderItemCommand>>(sp =>
                 new ValidatingCommandHandlerDecorator<AddOrderItemCommand>(
-                    sp.GetRequiredService<AddOrderItemHandler>(),
-                    sp.GetService<IValidator<AddOrderItemCommand>>()));
+                    sp.GetRequiredService<AddOrderItemHandler>()));
 
             services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 

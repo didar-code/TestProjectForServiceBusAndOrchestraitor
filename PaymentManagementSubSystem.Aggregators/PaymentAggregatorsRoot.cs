@@ -1,4 +1,5 @@
-﻿using SharedSubSystem.Exceptions;
+﻿using SharedSubSystem;
+using SharedSubSystem.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PaymentManagementSubSystem.Aggregators
 {
-    public class PaymentAggregatorsRoot
+    public class PaymentAggregatorsRoot:IAggregetRoot
     {
         public int PaymentId { get; private set; }
 

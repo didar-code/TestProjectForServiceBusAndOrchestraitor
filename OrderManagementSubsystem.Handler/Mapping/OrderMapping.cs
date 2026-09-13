@@ -1,5 +1,6 @@
 ﻿using OrderManagementSubsystem.Aggregators;
 using OrderManagementSubsystem.DTOs.Responses;
+using OrderManagementSubsystem.Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,17 @@ namespace OrderManagementSubsystem.Handler.Mapping
                 CustomerName = order.CustomerName,
                 TotalAmount = order.TotalAmount,
                 Status = order.Status,
-                OrderDate = order.OrderDate
+                OrderDate = order.OrderDate,
+
+                
+                Items = order.Items.Select(x => new OrderItemResponseDto
+                {
+                    OrderItemId = x.OrderItemId,
+                    ProductName = x.ProductName,
+                    Quantity = x.Quantity,
+                    UnitPrice = x.UnitPrice,
+                    LineTotal = x.LineTotal
+                }).ToList()
             };
         }
     }

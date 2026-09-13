@@ -1,4 +1,5 @@
-﻿using SharedSubSystem.Exceptions;
+﻿using SharedSubSystem;
+using SharedSubSystem.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AuthManagementSubSystem.Aggregators
 {
-    public class UserAggregatorsRoot
+    public class UserAggregatorsRoot:IAggregetRoot
     {
         public int UserId { get; private set; }
 

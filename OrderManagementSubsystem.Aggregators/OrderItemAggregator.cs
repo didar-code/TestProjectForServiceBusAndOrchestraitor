@@ -1,4 +1,5 @@
-﻿using SharedSubSystem.Exceptions;
+﻿using SharedSubSystem;
+using SharedSubSystem.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrderManagementSubsystem.Aggregators
 {
-    public class OrderItemAggregator
+    public class OrderItemAggregator:IAggregator
     {
         public int OrderItemId { get; private set; }
 
@@ -26,7 +27,7 @@ namespace OrderManagementSubsystem.Aggregators
         }
 
 
-        internal static OrderItemAggregator Create(string productName, int quantity, decimal unitPrice)
+         internal static OrderItemAggregator Create(string productName, int quantity, decimal unitPrice)
         {
             if (string.IsNullOrWhiteSpace(productName))
                 throw new BusinessRuleException("Product name is required.");   

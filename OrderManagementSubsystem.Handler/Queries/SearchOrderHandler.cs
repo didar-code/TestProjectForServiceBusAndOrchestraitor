@@ -22,9 +22,7 @@ namespace OrderManagementSubsystem.Handler.Queries
 
         public async Task<IEnumerable<OrderResponseDto>> HandleAsync(SearchOrderQuery query)
         {
-            var orders = await _repository.SearchAsync(
-                query.OrderId,
-                query.CustomerName,
+            var orders = await _repository.SearchAsync(query.OrderId, query.CustomerName,
                 query.Status);
 
             return orders.Select(x => x.ToResponseDto());
