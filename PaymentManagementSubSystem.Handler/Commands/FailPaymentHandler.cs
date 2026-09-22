@@ -22,8 +22,7 @@ namespace PaymentManagementSubSystem.Handler.Commands
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Event>> HandleAsync(
-            FailPaymentCommand command)
+        public async Task<IEnumerable<Event>> HandleAsync( FailPaymentCommand command)
         {
             var payment =
                 await _repository.GetByIdAsync(

@@ -19,8 +19,7 @@ namespace OrderManagementSubsystem.Repository.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(
-            OrderAggregatorsRoot order)
+        public async Task AddAsync(OrderAggregatorsRoot order)
         {
             await _context.Orders.AddAsync(order);
         }
@@ -43,7 +42,7 @@ namespace OrderManagementSubsystem.Repository.Repositories
             {
                 query = query.Where(x =>
                     x.CustomerName.Contains(customerName));
-            }
+            } 
 
             if (!string.IsNullOrWhiteSpace(status))
             {

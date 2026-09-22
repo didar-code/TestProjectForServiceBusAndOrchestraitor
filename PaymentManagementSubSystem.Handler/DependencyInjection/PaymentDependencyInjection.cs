@@ -46,6 +46,11 @@ namespace PaymentManagementSubSystem.Handler.DependencyInjection
                 new ValidatingCommandHandlerDecorator<ProcessPaymentCommand>(
                     sp.GetRequiredService<ProcessPaymentHandler>()));
             services.AddScoped<GetPaymentHandler>();
+            services.AddScoped<ConfirmPaymentHandler>();
+
+            services.AddScoped<ICommandHandler<ConfirmPaymentCommand>>(sp =>
+                new ValidatingCommandHandlerDecorator<ConfirmPaymentCommand>(
+                    sp.GetRequiredService<ConfirmPaymentHandler>()));
 
             services.AddValidatorsFromAssemblyContaining<CreatePaymentCommandValidator>();
 

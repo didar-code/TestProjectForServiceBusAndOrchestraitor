@@ -30,8 +30,7 @@ namespace AuthManagementSubSystem.Handlers.Commands
         public async Task<IEnumerable<Event>> HandleAsync(RegisterUserCommand command)
         {
             var exists =
-                await _repository.ExistsByEmailAsync(
-                    command.Email);
+                await _repository.ExistsByEmailAsync(command.Email);
 
             if (exists)
                 throw new ConflictException("Email already exists.");

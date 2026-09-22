@@ -36,8 +36,12 @@ namespace OrderManagementSubsystem.Aggregators
                 throw new BusinessRuleException("Quantity must be greater than zero.");   
 
             if (unitPrice <= 0)
-                throw new BusinessRuleException("Unit price must be greater than zero.");  
+                throw new BusinessRuleException("Unit price must be greater than zero.");
 
+            return MapToAggregator(productName,quantity,unitPrice);
+        }
+        private static OrderItemAggregator MapToAggregator(string productName,int quantity,decimal unitPrice)
+        {
             return new OrderItemAggregator
             {
                 ProductName = productName,
