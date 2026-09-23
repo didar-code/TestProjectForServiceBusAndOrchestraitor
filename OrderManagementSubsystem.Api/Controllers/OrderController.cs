@@ -29,7 +29,7 @@ namespace OrderManagementSubsystem.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Create( CreateOrderCommand command)
         {
             var events = await _createHandler.HandleAsync(command);

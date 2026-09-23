@@ -39,7 +39,7 @@ namespace PaymentManagementSubSystem.Api.Controllers
 
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Create(CreatePaymentCommand command)
         {
             var events =
@@ -50,7 +50,7 @@ namespace PaymentManagementSubSystem.Api.Controllers
 
 
         [HttpPut("{paymentId}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Update(int paymentId,
             [FromBody] UpdatePaymentCommand command)
         {

@@ -4,6 +4,7 @@ using PaymentManagementSubSystem.Repository.Interfaces;
 using SharedSubSystem.Events;
 using SharedSubSystem.Generics;
 using SharedSubSystem.Redis.Caching;
+using SharedSubSystem.Redis.Core;
 
 namespace PaymentManagementSubSystem.Handler.Commands
 {
@@ -35,7 +36,7 @@ namespace PaymentManagementSubSystem.Handler.Commands
 
             await _repository.SaveAsync();
 
-            await _cache.RemoveAsync($"payment:{command.PaymentId}");
+            await _cache.RemoveAsync(RedisKeyGenerator.Payment(payment.PaymentId));
 
             return new List<Event>
             {
