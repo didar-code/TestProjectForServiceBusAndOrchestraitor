@@ -4,6 +4,7 @@ using PaymentManagementSubSystem.Repository.Interfaces;
 using SharedSubSystem.Events;
 using SharedSubSystem.Exceptions;
 using SharedSubSystem.Generics;
+using SharedSubSystem.Redis.Caching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,17 @@ namespace PaymentManagementSubSystem.Handler.Commands
     public class ProcessPaymentHandler : ICommandHandler<ProcessPaymentCommand>
     {
         private readonly IPaymentRepository _repository;
+        private readonly IRedisCacheService _cacheService;
 
-        public ProcessPaymentHandler(IPaymentRepository repository)
+        public ProcessPaymentHandler(
+            IPaymentRepository repository,
+            IRedisCacheService cacheService)
         {
             _repository = repository;
+            _cacheService = cacheService;
         }
 
-        public async Task<IEnumerable<Event>> HandleAsync(
-            ProcessPaymentCommand command)
+        public async Task<IEnumerable<Event>> HandleAsync(ProcessPaymentCommand command)
         {
             var payment = await _repository.GetByIdAsync(
                     command.PaymentId);
@@ -33,6 +37,7 @@ namespace PaymentManagementSubSystem.Handler.Commands
             payment.Confirm();
 
             await _repository.SaveAsync();
+            await _cacheService.RemoveAsync($"Payment_{payment.PaymentId}");
 
             return new List<Event>
             {

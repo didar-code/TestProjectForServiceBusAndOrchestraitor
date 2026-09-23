@@ -1,41 +1,46 @@
 ﻿using PaymentManagementSubSystem.DTOs.Commands;
 using PaymentManagementSubSystem.DTOs.Events;
 using PaymentManagementSubSystem.Repository.Interfaces;
+using SharedSubSystem.Caching;
 using SharedSubSystem.Events;
-using SharedSubSystem.Exceptions;
 using SharedSubSystem.Generics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharedSubSystem.Redis.Caching;
 
 namespace PaymentManagementSubSystem.Handler.Commands
 {
     public class UpdatePaymentHandler
-       : ICommandHandler<UpdatePaymentCommand>
+        : ICommandHandler<UpdatePaymentCommand>
     {
         private readonly IPaymentRepository _repository;
+        private readonly IRedisCacheService _cache;
 
-        public UpdatePaymentHandler(IPaymentRepository repository)
+        public UpdatePaymentHandler(
+            IPaymentRepository repository,
+            IRedisCacheService cache)
         {
             _repository = repository;
+            _cache = cache;
         }
 
         public async Task<IEnumerable<Event>> HandleAsync(
             UpdatePaymentCommand command)
         {
-            var payment = await _repository.GetByIdAsync(
-                command.PaymentId);
+            var payment =
+                await _repository.GetByIdAsync(
+                    command.PaymentId);
 
             if (payment == null)
-                throw new NotFoundException("Payment not found.");
+                throw new Exception(
+                    "Payment not found.");
 
             payment.Update(
                 command.Amount,
                 command.PaymentMethod);
 
             await _repository.SaveAsync();
+
+            await _cache.RemoveAsync(
+                $"payment:{command.PaymentId}");
 
             return new List<Event>
             {

@@ -1,39 +1,66 @@
 ﻿using PaymentManagementSubSystem.DTOs.Responses;
 using PaymentManagementSubSystem.Handler.Mapping;
 using PaymentManagementSubSystem.Repository.Interfaces;
-using SharedSubSystem.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharedSubSystem.Redis.Caching;
 
 namespace PaymentManagementSubSystem.Handler.Queries
 {
     public class GetPaymentHandler
     {
         private readonly IPaymentRepository _repository;
+        private readonly IRedisCacheService _cache;
 
-        public GetPaymentHandler(IPaymentRepository repository)
+        public GetPaymentHandler(
+            IPaymentRepository repository,
+            IRedisCacheService cache)
         {
             _repository = repository;
+            _cache = cache;
         }
 
         public async Task<IEnumerable<PaymentResponseDto>> GetAllAsync()
         {
-            var payments = await _repository.GetAllAsync();
+            var payments =
+                await _repository.GetAllAsync();
 
-            return payments.Select(x => x.ToResponseDto());
+            return payments.Select(
+                x => x.ToResponseDto());
         }
 
-        public async Task<PaymentResponseDto?> GetByIdAsync(int paymentId)
+        public async Task<PaymentResponseDto?> GetByIdAsync(
+            int paymentId)
         {
-            var payment = await _repository.GetByIdAsync(paymentId);
+            var cacheKey =
+                $"payment:{paymentId}";
+
+            var cached =
+                await _cache.GetAsync<PaymentResponseDto>(
+                    cacheKey);
+
+            if (cached != null)
+            {
+                return cached;
+            }
+
+            var payment =
+                await _repository.GetByIdAsync(
+                    paymentId);
 
             if (payment == null)
-                throw new NotFoundException("Payment not found.");
+            {
+                throw new Exception(
+                    "Payment not found.");
+            }
 
-            return payment.ToResponseDto();
+            var result =
+                payment.ToResponseDto();
+
+            await _cache.SetAsync(
+                cacheKey,
+                result,
+                TimeSpan.FromMinutes(10));
+
+            return result;
         }
     }
 }

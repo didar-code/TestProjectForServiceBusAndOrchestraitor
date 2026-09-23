@@ -4,6 +4,7 @@ using PaymentManagementSubSystem.Repository.Interfaces;
 using SharedSubSystem.Events;
 using SharedSubSystem.Exceptions;
 using SharedSubSystem.Generics;
+using SharedSubSystem.Redis.Caching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,14 @@ namespace PaymentManagementSubSystem.Handler.Commands
 {
     public class FailPaymentHandler : ICommandHandler<FailPaymentCommand>
     {
+        private readonly IRedisCacheService _cacheService;
         private readonly IPaymentRepository _repository;
 
         public FailPaymentHandler(
+            IRedisCacheService cacheService,
             IPaymentRepository repository)
         {
+            _cacheService = cacheService;
             _repository = repository;
         }
 
@@ -34,6 +38,7 @@ namespace PaymentManagementSubSystem.Handler.Commands
             payment.Fail();
 
             await _repository.SaveAsync();
+            await _cacheService.RemoveAsync($"payment:{command.PaymentId}");
 
             return new List<Event>
             {

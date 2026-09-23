@@ -1,7 +1,8 @@
 using Microsoft.OpenApi.Models;
-
 using PaymentManagementSubSystem.Handler.DependencyInjection;
+
 using SharedSubSystem.Middleware;
+using SharedSubSystem.Redis.DependencyInjection;
 using SharedSubSystem.Security;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddPaymentManagement(builder.Configuration);
+builder.Services.AddRedisCache(builder.Configuration);
+
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -45,6 +48,8 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddTokenVarification(
     builder.Configuration);
+
+
 
 var app = builder.Build();
 app.UseMiddleware<GlobalExceptionMiddleware>();
